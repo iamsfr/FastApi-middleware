@@ -52,3 +52,12 @@ def home():
 async def selfie(token: str = Depends(oauth_scheme)):
     return {"yes": token}
     
+    
+@app.middleware("http")
+async def add_custom_header(request: Request, call_next):
+    response = await call_next(request)
+
+    # Add a custom header to the response
+    response.headers["X-Custom-Header"] = "Hello, World!"
+
+    return response
